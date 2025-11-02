@@ -1,4 +1,4 @@
-# demo.py
+
 import time
 from job_scheduling import Job, greedy_job_sequencing
 from compare_bruteforce import brute_force_job_sequencing
