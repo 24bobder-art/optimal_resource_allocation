@@ -1,0 +1,42 @@
+# resource_selection.py
+from typing import List, Tuple
+
+def fractional_knapsack(costs: List[float], benefits: List[float], capacity: float):
+    """Greedy fractional knapsack-style resource selection.
+    We maximize benefit for given capacity (cost budget).
+    Returns list of (cost_taken, benefit_taken, fraction) and totals.
+    """
+    items = []
+    for c, b, i in zip(costs, benefits, range(len(costs))):
+        ratio = b / c if c != 0 else float('inf')
+        items.append((ratio, c, b, i))
+    items.sort(key=lambda x: x[0], reverse=True)  # highest benefit/cost first
+
+    remaining = capacity
+    selected = []
+    total_cost = 0.0
+    total_benefit = 0.0
+    for ratio, cost, benefit, idx in items:
+        if remaining <= 0:
+            break
+        if cost <= remaining:
+            selected.append((idx, cost, benefit, 1.0))
+            remaining -= cost
+            total_cost += cost
+            total_benefit += benefit
+        else:
+            frac = remaining / cost
+            selected.append((idx, cost * frac, benefit * frac, frac))
+            total_cost += cost * frac
+            total_benefit += benefit * frac
+            remaining = 0
+            break
+    return selected, total_cost, total_benefit
+
+if __name__ == '__main__':
+    costs = [10,20,30,40]
+    benefits = [60,100,120,200]
+    cap = 60
+    sel, tc, tb = fractional_knapsack(costs, benefits, cap)
+    print('Selected:', sel)
+    print('Total cost:', tc, 'Total benefit:', tb)
