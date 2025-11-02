@@ -1,4 +1,4 @@
-# resource_selection.py
+
 from typing import List, Tuple
 
 def fractional_knapsack(costs: List[float], benefits: List[float], capacity: float):
