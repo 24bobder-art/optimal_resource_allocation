@@ -1,4 +1,4 @@
-# compare_bruteforce.py
+
 from itertools import permutations
 from typing import List, Tuple
 from job_scheduling import Job
