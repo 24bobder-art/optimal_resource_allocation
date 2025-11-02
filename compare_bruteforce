@@ -1,0 +1,28 @@
+# compare_bruteforce.py
+from itertools import permutations
+from typing import List, Tuple
+from job_scheduling import Job
+
+def brute_force_job_sequencing(jobs: List[Job]) -> Tuple[List[str], int]:
+    """Exhaustive search for best job ordering (for small n)."""
+    best_profit = 0
+    best_sequence = []
+    n = len(jobs)
+    for perm in permutations(jobs):
+        time = 0
+        profit = 0
+        for job in perm:
+            time += 1
+            if time <= job.deadline:
+                profit += job.profit
+        if profit > best_profit:
+            best_profit = profit
+            best_sequence = [job.job_id for job in perm]
+    return best_sequence, best_profit
+
+if __name__ == '__main__':
+    jobs = [Job('J1', 100, 2), Job('J2', 19, 1), Job('J3', 27, 2),
+            Job('J4', 25, 1), Job('J5', 15, 3)]
+    seq, prof = brute_force_job_sequencing(jobs)
+    print('Brute-force best perm (IDs):', seq)
+    print('Brute-force profit:', prof)
